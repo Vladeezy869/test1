@@ -1,0 +1,47 @@
+{
+  "name": "playwrighttest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "BookingTestNEO": "ENV=NEO npx playwright test tests/specs/BookingTesting/#17. SimpleBooking.spec.ts",
+    "BookingTestDEV": "ENV=DEV npx playwright test tests/specs/BookingTesting/CheckingOtherFeatures.spec.ts",
+    "BookingLanguageTestNEO": "ENV=NEO npx playwright test tests/specs/BookingTesting/#18,19. CheckingOtherFeatures.spec.ts",
+    "BookingPoliciesTestNEO": "ENV=NEO npx playwright test tests/specs/BookingTesting/#20. PoliciesCheck.spec.ts",
+    "BookingCancelationTestNEO": "ENV=NEO npx playwright test tests/specs/BookingTesting/#21. SimpleBookingWithCancelation.spec.ts",
+    "BookingNegativeTestNEO": "ENV=NEO npx playwright test tests/specs/BookingTesting/#23. SimpleNegativeTesting.spec.ts ",
+    "BookingNegativeSearchNEO": "ENV=NEO npx playwright test tests/specs/BookingTesting/#24. SimpleNegativeSearch.spec.ts",
+    "test1": "ENV=NEO npx playwright test tests/specs/BookingTesting/#22. AreYouStillHereTest.spec.ts --headed",
+    "pretest": "npm run playwright:clean && npm run allure:clean",
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:htmlreport": "npx playwright show-report",
+    "playwright:clean": "rm -rf playwright-report test-results",
+    "test:debug": "npx playwright test --debug",
+    "allure:open": "allure open ./allure-report",
+    "allure:clean": "rm -rf allure-results allure-report",
+    "allure:history": "cp -R allure-report/history allure-results",
+    "allure:serve": "allure serve allure-results",
+    "allure:serve:hi": "npm run allure:history && npx allure serve allure-results",
+    "allure:generate:hi": "npm run allure:history && npx allure generate allure-results --clean",
+    "allure:generate": "allure generate allure-results --clean && allure open ./allure-report",
+    "allure:generate1": "allure generate allure-results",
+    "test:codegen": "npx playwright codegen --output tests/generated.spec.ts"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {},
+  "devDependencies": {
+    "@playwright/test": "^1.19.2",
+    "allure-playwright": "^2.0.0-beta.14"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "experimental-allure-playwright": "^0.0.3",
+    "xsltproc": "^0.0.4"
+  }
+}

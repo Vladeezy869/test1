@@ -1,0 +1,48 @@
+stages:
+  - testing
+  - deploy 
+
+docker_job_staging:
+  stage: testing
+  tags:
+    - docker
+  image: atools/chrome-headless:java11-node14-latest 
+
+  before_script:
+    # - echo "deb http://ftp.us.debian.org/debian buster main non-free" >> /etc/apt/sources.list.d/fonts.list
+    # - apt update
+    # - apt install -y libgudev-1.0-dev ttf-ubuntu-font-family libenchant1c2a
+    # - wget http://security.ubuntu.com/ubuntu/pool/main/i/icu/libicu66_66.1-2ubuntu2_amd64.deb
+    # - dpkg -i libicu66_66.1-2ubuntu2_amd64.deb
+    # - wget http://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg-turbo8_1.5.2-0ubuntu5.18.04.4_amd64.deb
+    # - dpkg --ignore-depends=multiarch-support  -i libjpeg-turbo8_1.5.2-0ubuntu5.18.04.4_amd64.deb
+    # - apt -y --fix-broken install
+    - npm ci 
+    - npx playwright install
+    #- npx playwright install-deps
+    - npm install allure-commandline --save-dev
+  script:
+    - ENV=DEV npx playwright test
+  
+    
+  after_script:
+    - npx allure generate allure-results
+  rules:
+      - when: always
+  allow_failure: false
+  artifacts: 
+    when: always
+    paths:
+      - ./allure-report
+    expire_in: 1 day 
+
+pages: 
+  stage: deploy
+  script:
+    - mkdir public 
+    - mv ./allure-report/* public
+  artifacts:
+    paths:
+      - public
+  rules:
+      - when: always
