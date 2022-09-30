@@ -19,3 +19,15 @@ jobs:
 
       - name: Install dependencies and run tests
         run: npm install && npx playwright install && npx playwright test
+
+    steps:
+      - uses: microsoft/playwright-github-action@v1
+
+      - name: Install dependencies and run tests
+        run: npm install && npm test
+
+      - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: allure-report
+          path: allure-report
